@@ -13,16 +13,15 @@ class Crud:
             first_name = input("Enter first name: ")
             last_name = input("Enter last name: ")
             number = input("Enter number: ")
-            address = input("Enter addres: ")
-            date = input("Enter date born: ")
+            address = input("Enter address: ")
+            date = input("Enter date born(dd.mm.yyyy): ")
             if len(first_name) == 0 or len(last_name) == 0 or len(number) == 0:
-                first_name, last_name, number = None, None, None
+                first_name = None
             else:
                 first_name, last_name = first_name.capitalize(), last_name.capitalize()
-            self.table.cur.execute(
-                'INSERT INTO notes VALUES(?,?,?,?,?,?)', (None, first_name, last_name, number, address, date))
-            print("\nNote added:")
-            print(f'Notes in notebook: {self.table.amaunt_notes()}')
+            self.table.cur.execute('INSERT INTO notes VALUES(?,?,?,?,?,?)',
+                                   (None, first_name, last_name, number, address, date))
+            print(f"\nNote added:\nNotes in notebook: {self.table.amaunt_notes()}")
             indx = self.table.cur.execute("SELECT Id FROM notes WHERE First_name == ? AND Number = ?",
                                           (first_name, number,))
             idx = indx.fetchone()[0]
@@ -33,51 +32,30 @@ class Crud:
 
     def del_note(self):
         amount_now = self.table.amaunt_notes()
-        what_del = input('1 - Delete by first name\n2 - Delete by number\nAny key - Exit\n')
-        match what_del:
-            case '1':
-                del_name = input("Enter first name: ")
-                self.table.cur.execute(f'DELETE FROM notes WHERE First_name == ?', (del_name.capitalize(),))
-            case '2':
-                del_num = input("Enter number: ")
-                self.table.cur.execute(f'DELETE FROM notes WHERE Number == ?', (del_num,))
-            case _:
-                pass
+        del_dict = {1: "Id", 2: "Number"}
+        what_del = input('1 - Delete by Id\n2 - Delete by number\nAny key - Exit\n')
+        value = input("Enter value: ")
+        self.table.cur.execute(f'DELETE FROM notes WHERE {del_dict[int(what_del)]} == ?', (value,))
         if amount_now - self.table.amaunt_notes() == 1:
             print('note was deleted')
             print(f'Notes in notebook: {self.table.amaunt_notes()}')
         else:
-            print("Нou entered incorrect data")
+            print("You entered incorrect data")
 
     def update_notes(self):
-        line_update = input("Enter the note number to update: ")
+        line_update = input("Enter user's id to update: ")
         print("\nWhat attribute do you want to change:\n"
               "1 - First name\n2 - Last name\n3 - Number\n4 - Address\n5 - Date of Birth\n")
         what_to_update = input("Your choice: ")
         try:
-            match what_to_update:
-                case "1":
-                    val = input("Enter new first name: ")
-                    if len(val) == 0:
-                        val = None
-                    self.table.cur.execute("UPDATE notes SET First_name == ? WHERE Id == ?", (val, line_update,))
-                case "2":
-                    val = input("Enter new last name: ")
-                    if len(val) == 0:
-                        val = None
-                    self.table.cur.execute(f"UPDATE notes SET Last_name == ? WHERE Id == ?", (val, line_update,))
-                case "3":
-                    val = input("Enter new number: ")
-                    if len(val) == 0:
-                        val = None
-                    self.table.cur.execute("UPDATE notes SET Number == ? WHERE Id == ?", (val, line_update,))
-                case "4":
-                    val = input("Enter new adress: ")
-                    self.table.cur.execute("UPDATE notes SET Address == ? WHERE Id == ?", (val, line_update,))
-                case "5":
-                    val = input("Enter new birth date ")
-                    self.table.cur.execute("UPDATE notes SET Born_data == ? WHERE Id == ?", (val, line_update,))
-                case _:
-                    pass
+            update_dict = {1: "First_name", 2: "Last_name", 3: "Number", 4: "Address", 5: "Born_data"}
+            value = input("Enter new value: ")
+            if len(value) == 0:
+                value = None
+            self.table.cur.execute(f"UPDATE notes SET {update_dict[int(what_to_update)]} == ? "
+                                   f"WHERE Id == ?", (value.capitalize(), line_update,))
+            new_note = self.table.cur.execute(f"SELECT * FROM notes WHERE Id == ?", (line_update,))
+            record = new_note.fetchall()
+            self.table.print_table(record)
         except IntegrityError as ex:
             print("Exception:", ex)

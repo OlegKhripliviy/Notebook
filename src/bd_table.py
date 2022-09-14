@@ -25,12 +25,14 @@ class Table:
         self.base.commit()
 
     def select_table(self):
-        x = input("\nPrint table:\n1 - Order by id\n2 - Order by First name\n"
-                  "3 - Order by Last name\nAny key - Exit\nYour choice: ")
-        ord = {1: "Id", 2: "First_name", 3: "Last_name"}
-        self.print_table("*", ord[int(x)])
+        answ = input("\nPrint table:\n1 - Order by id\n2 - Order by First name\n"
+                     "3 - Order by Last name\nAny key - Exit\nYour choice: ")
+        order_by_set = {1: "Id", 2: "First_name", 3: "Last_name"}
+        records = self.cur.execute(f"SELECT * FROM notes ORDER BY {order_by_set[int(answ)]}")
+        self.print_table(records)
 
-    def print_table(self, what_print, order_by):
-        tbl_prnt = self.cur.execute(f'SELECT {what_print} FROM notes ORDER BY {order_by}').fetchall()
-        for i in tbl_prnt:
+    @staticmethod
+    def print_table(records):
+        for i in records:
             print(Note(i[0], i[1], i[2], i[3], i[4], i[5]))
+

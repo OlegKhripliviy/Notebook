@@ -22,23 +22,15 @@ class Find:
     def find_by_mask(self):
         mask = input("\nEnter part of last name: ")
         record = self.table.cur.execute(f"SELECT * FROM notes WHERE Last_name LIKE '{mask.capitalize()}%'")
-        for i in record.fetchall():
-            print(Note(i[0], i[1], i[2], i[3], i[4], i[5]))
+        self.table.print_table(record)
 
     def find_by_number(self):
         number1 = input("Enter number: ")
-        num = self.table.cur.execute(f"SELECT * FROM notes WHERE Number == ?", (number1,))
-        print(num.fetchall())
+        record = self.table.cur.execute(f"SELECT * FROM notes WHERE Number == ?", (number1,)).fetchall()
+        self.table.print_table(record)
 
     def find_by_name(self):
         first_name1 = input("Enter first name: ")
         slct = self.table.cur.execute(f"SELECT * FROM notes WHERE First_name == ?", (first_name1.capitalize(),))
         records = slct.fetchall()
-        records_line = []
-        for item in records:
-            records_line.append(item)
-            if len(records_line) > 20:
-                print("Too many matches, try search by number")
-                break
-        for i in records_line:
-            print(Note(i[0], i[1], i[2], i[3], i[4], i[5]))
+        self.table.print_table(records)
