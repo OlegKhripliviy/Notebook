@@ -13,10 +13,10 @@ class Crud:
             first_name = input("Enter first name: ")
             last_name = input("Enter last name: ")
             number = input("Enter number: ")
-            address = input("Enter addres: ")
+            address = input("Enter address: ")
             date = input("Enter date born: ")
             if len(first_name) == 0 or len(last_name) == 0 or len(number) == 0:
-                first_name, last_name, number = None, None, None
+                first_name = None
             else:
                 first_name, last_name = first_name.capitalize(), last_name.capitalize()
             self.table.cur.execute(
@@ -47,7 +47,7 @@ class Crud:
             print('note was deleted')
             print(f'Notes in notebook: {self.table.amaunt_notes()}')
         else:
-            print("Нou entered incorrect data")
+            print("You entered incorrect data")
 
     def update_notes(self):
         line_update = input("Enter the note number to update: ")
@@ -55,29 +55,11 @@ class Crud:
               "1 - First name\n2 - Last name\n3 - Number\n4 - Address\n5 - Date of Birth\n")
         what_to_update = input("Your choice: ")
         try:
-            match what_to_update:
-                case "1":
-                    val = input("Enter new first name: ")
-                    if len(val) == 0:
-                        val = None
-                    self.table.cur.execute("UPDATE notes SET First_name == ? WHERE Id == ?", (val, line_update,))
-                case "2":
-                    val = input("Enter new last name: ")
-                    if len(val) == 0:
-                        val = None
-                    self.table.cur.execute(f"UPDATE notes SET Last_name == ? WHERE Id == ?", (val, line_update,))
-                case "3":
-                    val = input("Enter new number: ")
-                    if len(val) == 0:
-                        val = None
-                    self.table.cur.execute("UPDATE notes SET Number == ? WHERE Id == ?", (val, line_update,))
-                case "4":
-                    val = input("Enter new adress: ")
-                    self.table.cur.execute("UPDATE notes SET Address == ? WHERE Id == ?", (val, line_update,))
-                case "5":
-                    val = input("Enter new birth date ")
-                    self.table.cur.execute("UPDATE notes SET Born_data == ? WHERE Id == ?", (val, line_update,))
-                case _:
-                    pass
+            update_dict = {1: "First_name", 2: "Last_name", 3: "Number", 4: "Address", 5: "Born_data"}
+            value = input("Enter new value: ")
+            if len(value) == 0:
+                value = None
+            self.table.cur.execute(f"UPDATE notes SET {update_dict[int(what_to_update)]} == ? "
+                                   f"WHERE Id == ?", (value, line_update,))
         except IntegrityError as ex:
             print("Exception:", ex)
