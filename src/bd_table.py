@@ -31,6 +31,11 @@ class Table:
         records = self.cur.execute(f"SELECT * FROM notes ORDER BY {order_by_set[int(answ)]}")
         self.print_table(records)
 
+    def close(self):
+        self.cur.close()
+        self.base.close()
+        print("DB closed")
+        
     @staticmethod
     def print_table(records):
         for i in records:

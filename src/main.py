@@ -11,6 +11,7 @@ def main():
                      '4 - Find note\n5 - Print table\nYour choice: ')
         match menu:
             case "0":
+                table.close()
                 break
             case "1":
                 print(crud.add_one_note())
