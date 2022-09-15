@@ -7,9 +7,9 @@ def main():
     # bk.delete_table()
     table.create_table()
     while True:
-        x = input('\n0 - Exit\n1 - Add new note\n2 - Delete note\n3 - Update none\n'
-                  '4 - Find note\n5 - Print table\nYour choice: ')
-        match x:
+        menu = input('\n0 - Exit\n1 - Add new note\n2 - Delete note\n3 - Update none\n'
+                     '4 - Find note\n5 - Print table\nYour choice: ')
+        match menu:
             case "0":
                 break
             case "1":

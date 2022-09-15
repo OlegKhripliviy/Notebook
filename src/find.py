@@ -1,4 +1,3 @@
-from src.note import Note
 from src.bd_table import Table
 
 
