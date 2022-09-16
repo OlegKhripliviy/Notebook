@@ -1,17 +1,25 @@
-class Note:
-    def __init__(self, idx, first_name, last_name, number, address=None, date=None):
-        self.idx = idx
-        self.first_name = first_name
-        self.last_name = last_name
-        self.number = number
-        self.address = address
-        self.date = date
+from src.user_interface import UserInterface
+from src.validation import Validation
+from src.bd_table import Table
 
-    def __str__(self):
-        text_line = f'Id = {self.idx}, First name: {self.first_name}, Last name: {self.last_name}, number: {self.number}'
-        if len(self.address) > 0:
-            text_line += f', address: {self.address}'
-        if len(str(self.date)) > 0:
-            text_line += f', Birth dade: {self.date}'
-        return text_line
+table = Table()
 
+
+class Palas:
+    def __init__(self):
+        self.table = Table
+
+    def del_note(self):
+        amount_now = table.amaunt_notes()
+        if Validation().menu_validation(UserInterface().del_menu(), 2) == 0:
+            print("fiasko")
+        else:
+            note_id = Validation().id_validation()
+
+            table.cur.execute(f'DELETE FROM notes WHERE Id== ?', (note_id,))
+            if amount_now - table.amaunt_notes() == 1:
+                print(f'Note was deleted\nNotes in notebook: {table.amaunt_notes()}\n')
+            else:
+                print("You entered incorrect data")
+
+Palas().del_note()

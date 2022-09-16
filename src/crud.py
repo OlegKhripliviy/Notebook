@@ -1,7 +1,8 @@
 from sqlite3 import IntegrityError
 
 from src.bd_table import Table
-from src.note import Note
+from src.validation import Validation
+from src.user_interface import UserInterface
 
 
 class Crud:
@@ -10,51 +11,35 @@ class Crud:
 
     def add_one_note(self):
         try:
-            first_name = input("Enter first name: ")
-            last_name = input("Enter last name: ")
-            number = input("Enter number: ")
-            address = input("Enter address: ")
-            date = input("Enter date born(dd.mm.yyyy): ")
-            if len(first_name) == 0 or len(last_name) == 0 or len(number) == 0:
-                first_name = None
-            else:
-                first_name, last_name = first_name.capitalize(), last_name.capitalize()
+            record = Validation().add_note_validation()
             self.table.cur.execute('INSERT INTO notes VALUES(?,?,?,?,?,?)',
-                                   (None, first_name, last_name, number, address, date))
-            print(f"\nNote added:\nNotes in notebook: {self.table.amaunt_notes()}")
-            indx = self.table.cur.execute("SELECT Id FROM notes WHERE First_name == ? AND Number = ?",
-                                          (first_name, number,))
-            idx = indx.fetchone()[0]
-            return Note(idx=idx, first_name=first_name, last_name=last_name, number=number, address=address,
-                        date=date)
+                                   (None, record[0], record[1], record[2], record[3], record[4]))
+            self.table.amaunt_notes()
+            tabl = self.table.cur.execute("SELECT * FROM notes WHERE Number = ?", (record[2],)).fetchall()
+            return self.table.print_table(tabl)
         except IntegrityError as ex:
             print("\nException", ex)
 
     def del_note(self):
         amount_now = self.table.amaunt_notes()
-        del_dict = {1: "Id", 2: "Number"}
-        what_del = input('1 - Delete by Id\n2 - Delete by number\nAny key - Exit\n')
-        value = input("Enter value: ")
-        self.table.cur.execute(f'DELETE FROM notes WHERE {del_dict[int(what_del)]} == ?', (value,))
-        if amount_now - self.table.amaunt_notes() == 1:
-            print('note was deleted')
-            print(f'Notes in notebook: {self.table.amaunt_notes()}')
+        if Validation().menu_validation(UserInterface().del_menu(), 2) == 0:
+            print("Menu is close\n")
         else:
-            print("You entered incorrect data")
+            note_id = Validation().id_validation()
+            self.table.cur.execute(f'DELETE FROM notes WHERE Id== ?', (note_id,))
+            if amount_now - self.table.amaunt_notes() == 1:
+                print('note was delete')
+            else:
+                print("You entered incorrect data")
 
     def update_notes(self):
-        line_update = input("Enter user's id to update: ")
-        print("\nWhat attribute do you want to change:\n"
-              "1 - First name\n2 - Last name\n3 - Number\n4 - Address\n5 - Date of Birth\n")
-        what_to_update = input("Your choice: ")
+        user_id = Validation().id_validation()
         try:
-            update_dict = {1: "First_name", 2: "Last_name", 3: "Number", 4: "Address", 5: "Born_data"}
-            value = input("Enter new value: ")
-            if len(value) == 0:
-                value = None
-            self.table.cur.execute(f"UPDATE notes SET {update_dict[int(what_to_update)]} == ? "
-                                   f"WHERE Id == ?", (value.capitalize(), line_update,))
-            new_note = self.table.cur.execute(f"SELECT * FROM notes WHERE Id == ?", (line_update,))
+            self.table.cur.execute(
+                f"UPDATE notes SET First_name = ?, Last_name = ?,Number = ?, Address = ?, Born_data = ? WHERE Id = ?",
+                (Validation().first_name_valid(), Validation().last_name_valid(), Validation().number_valid(),
+                 UserInterface().add_address(), Validation().date_valid(), user_id))
+            new_note = self.table.cur.execute(f"SELECT * FROM notes WHERE Id == ?", (user_id,))
             record = new_note.fetchall()
             self.table.print_table(record)
         except IntegrityError as ex:

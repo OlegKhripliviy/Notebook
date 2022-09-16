@@ -24,12 +24,12 @@ class Find:
         self.table.print_table(record)
 
     def find_by_number(self):
-        number1 = input("Enter number: ")
-        record = self.table.cur.execute(f"SELECT * FROM notes WHERE Number == ?", (number1,)).fetchall()
+        number = input("Enter number: ")
+        record = self.table.cur.execute(f"SELECT * FROM notes WHERE Number == ?", (number,)).fetchall()
         self.table.print_table(record)
 
     def find_by_name(self):
-        first_name1 = input("Enter first name: ")
-        slct = self.table.cur.execute(f"SELECT * FROM notes WHERE First_name == ?", (first_name1.capitalize(),))
-        records = slct.fetchall()
+        first_name = input("Enter first name: ")
+        record = self.table.cur.execute(f"SELECT * FROM notes WHERE First_name == ?", (first_name.capitalize(),))
+        records = record.fetchall()
         self.table.print_table(records)

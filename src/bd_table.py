@@ -1,7 +1,5 @@
 import sqlite3
 
-from src.note import Note
-
 
 class Table:
     def __init__(self):
@@ -12,17 +10,17 @@ class Table:
         self.base.execute('CREATE TABLE IF NOT EXISTS notes'
                           '(Id INTEGER PRIMARY KEY, First_name TEXT NOT NULL, Last_name TEXT NOT NULL, '
                           'Number UNIQUE, Address TEXT, Born_data date)')
-        self.base.commit()
         print("Connected to table")
-        print(f'Numbers columns: {self.amaunt_notes()}')
+        self.amaunt_notes()
 
     def amaunt_notes(self):
         count = self.cur.execute('SELECT COUNT(*) FROM notes')
-        return count.fetchone()[0]
+        num_row = count.fetchone()[0]
+        print(f'Notes in notebook: {num_row}')
+        return num_row
 
     def delete_table(self):
         self.base.execute('DROP TABLE IF EXISTS notes')
-        self.base.commit()
 
     def select_table(self):
         answ = input("\nPrint table:\n1 - Order by id\n2 - Order by First name\n"
@@ -35,9 +33,14 @@ class Table:
         self.cur.close()
         self.base.close()
         print("DB closed")
-        
+
     @staticmethod
     def print_table(records):
         for i in records:
-            print(Note(i[0], i[1], i[2], i[3], i[4], i[5]))
-
+            text = ""
+            text += f'{i[0]}. First name: {i[1]}, Last_name: {i[2]}, Number: {i[3]}'
+            if len(i[4]) > 2:
+                text += f' ,Address: {i[4]}'
+            if len(str(i[5])) > 5:
+                text += f' ,Birth data: {i[5]}'
+            print(text)

@@ -15,7 +15,7 @@ class Validation:
             if len(first_name) < 2 or not first_name.isalpha():
                 print("Too short or has number. Try again\n")
             else:
-                return first_name
+                return first_name.capitalize()
 
     @staticmethod
     def last_name_valid():
@@ -24,7 +24,7 @@ class Validation:
             if len(last_name) < 2 or not last_name.isalpha():
                 print("Too short or has number. Try again\n")
             else:
-                return last_name
+                return last_name.capitalize()
 
     @staticmethod
     def number_valid():
@@ -78,10 +78,3 @@ class Validation:
             except ValueError:
                 print("You didn't enter a number. Try again")
 
-
-    # @staticmethod
-    # def update_validation():
-    #     us.update_note()
-
-
-# print(Validation().del_note_validation())

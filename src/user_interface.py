@@ -20,7 +20,7 @@ class UserInterface:
     @staticmethod
     def add_address():
         address = input("Enter address: ")
-        return address
+        return address.capitalize()
 
     @staticmethod
     def add_date():
@@ -37,25 +37,3 @@ class UserInterface:
         choice = input('0 - Exit\n1 - Delete by Id\nYour choice: ')
         return choice
 
-    @staticmethod
-    def update_menu():
-        update_menu = input("\nWhat attribute do you want to change:\n0 - Exit\n"
-                            "1 - First name\n2 - Last name\n3 - Number\n4 - Address\n5 - Date of Birth\n")
-        return update_menu
-
-    @staticmethod
-    def position_choice():
-        choice = input("Your choice: ")
-        return choice
-
-    @staticmethod
-    def new_value():
-        value = input("Enter new value: ")
-        return value
-    # def update_note_interface(self):
-    #     user_id = input("Enter user's id to update: ")
-    #     print("\nWhat attribute do you want to change:\n"
-    #           "1 - First name\n2 - Last name\n3 - Number\n4 - Address\n5 - Date of Birth\n")
-    #     what_to_update = input("Your choice: ")
-    #
-    #     new_value = input("Enter new value: ")
