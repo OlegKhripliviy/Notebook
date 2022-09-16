@@ -11,20 +11,20 @@ class Validation:
     @staticmethod
     def first_name_valid():
         while True:
-            name = us.add_first_name()
-            if len(name) < 2 or not name.isalpha():
+            first_name = us.add_first_name()
+            if len(first_name) < 2 or not first_name.isalpha():
                 print("Too short or has number. Try again\n")
             else:
-                return name
+                return first_name
 
     @staticmethod
     def last_name_valid():
         while True:
-            name = us.add_last_name()
-            if len(name) < 2 or not name.isalpha():
+            last_name = us.add_last_name()
+            if len(last_name) < 2 or not last_name.isalpha():
                 print("Too short or has number. Try again\n")
             else:
-                return name
+                return last_name
 
     @staticmethod
     def number_valid():
@@ -39,6 +39,8 @@ class Validation:
     def date_valid():
         while True:
             date = us.add_date()
+            if len(date) == 0:
+                break
             try:
                 if datetime.strptime(date, '%d.%m.%Y'):
                     return date
@@ -54,19 +56,32 @@ class Validation:
         self.note_list.append(self.date_valid())
         return self.note_list
 
-
-    def del_note_validation(self):
+    @staticmethod
+    def id_validation():
         while True:
-            del_or_ex = us.input_del_or_ex()
-            if del_or_ex != '0' and del_or_ex != '1':
-                print("Unknown command. Try again")
-            elif del_or_ex == '0':
-                break
             try:
                 note_id = int(us.input_id())
                 return note_id
             except ValueError:
                 print("You didn't enter a number. Try again")
 
+    @staticmethod
+    def menu_validation(menu, menu_len: int):
+        while True:
+            try:
+                if menu == '0':
+                    return int(menu)
+                elif int(menu) not in range(1, menu_len + 1):
+                    print("Unknown command. Try again")
+                else:
+                    return int(menu)
+            except ValueError:
+                print("You didn't enter a number. Try again")
 
-print(Validation().del_note_validation())
+
+    # @staticmethod
+    # def update_validation():
+    #     us.update_note()
+
+
+# print(Validation().del_note_validation())
