@@ -1,17 +1,23 @@
 from datetime import datetime
-from src.user_interface import UserInterface
-
-us = UserInterface()
+from src.user_interface import user_interface
 
 
 class Validation:
     def __init__(self):
         self.note_list = []
 
+    def add_note_validation(self):
+        self.note_list.append(self.first_name_valid())
+        self.note_list.append(self.last_name_valid())
+        self.note_list.append(self.number_valid())
+        self.note_list.append(user_interface("4"))
+        self.note_list.append(self.date_valid())
+        return self.note_list
+
     @staticmethod
     def first_name_valid():
         while True:
-            first_name = us.add_first_name()
+            first_name = user_interface("1")
             if len(first_name) < 2 or not first_name.isalpha():
                 print("Too short or has number. Try again\n")
             else:
@@ -20,7 +26,7 @@ class Validation:
     @staticmethod
     def last_name_valid():
         while True:
-            last_name = us.add_last_name()
+            last_name = user_interface("2")
             if len(last_name) < 2 or not last_name.isalpha():
                 print("Too short or has number. Try again\n")
             else:
@@ -29,7 +35,7 @@ class Validation:
     @staticmethod
     def number_valid():
         while True:
-            number = us.add_number()
+            number = user_interface("3")
             if len(number) != 10 or not number.isdigit():
                 print("Incorrect input phone number. Try again\n")
             else:
@@ -38,7 +44,7 @@ class Validation:
     @staticmethod
     def date_valid():
         while True:
-            date = us.add_date()
+            date = user_interface("6")
             if len(date) == 0:
                 break
             try:
@@ -48,19 +54,11 @@ class Validation:
                 print("Invalid data. Try again")
                 return False
 
-    def add_note_validation(self):
-        self.note_list.append(self.first_name_valid())
-        self.note_list.append(self.last_name_valid())
-        self.note_list.append(self.number_valid())
-        self.note_list.append(us.add_address())
-        self.note_list.append(self.date_valid())
-        return self.note_list
-
     @staticmethod
     def id_validation():
         while True:
             try:
-                note_id = int(us.input_id())
+                note_id = int(user_interface("7"))
                 return note_id
             except ValueError:
                 print("You didn't enter a number. Try again")
@@ -77,4 +75,5 @@ class Validation:
                     return int(menu)
             except ValueError:
                 print("You didn't enter a number. Try again")
+
 

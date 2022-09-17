@@ -2,7 +2,7 @@ from sqlite3 import IntegrityError
 
 from src.bd_table import Table
 from src.validation import Validation
-from src.user_interface import UserInterface
+from src.user_interface import user_interface
 
 
 class Crud:
@@ -21,7 +21,7 @@ class Crud:
 
     def del_note(self):
         amount_now = self.amaunt_notes()
-        if Validation().menu_validation(UserInterface().del_menu(), 2) == 0:
+        if Validation().menu_validation(user_interface("8"), 2) == 0:
             print("Menu is close\n")
         else:
             note_id = Validation().id_validation()
@@ -37,7 +37,7 @@ class Crud:
             self.table.cur.execute(
                 f"UPDATE notes SET First_name = ?, Last_name = ?,Number = ?, Address = ?, Born_data = ? WHERE Id = ?",
                 (Validation().first_name_valid(), Validation().last_name_valid(), Validation().number_valid(),
-                 UserInterface().add_address(), Validation().date_valid(), user_id))
+                 user_interface("4"), Validation().date_valid(), user_id))
         except IntegrityError as ex:
             print("Exception:", ex)
 
@@ -47,7 +47,7 @@ class Crud:
         return record
 
     def select_order_by(self):
-        menu_num = Validation().menu_validation(UserInterface().order_menu(), 4)
+        menu_num = Validation().menu_validation(user_interface("9"), 4)
         if menu_num == 0:
             print("Menu is close\n")
         else:

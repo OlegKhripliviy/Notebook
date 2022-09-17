@@ -1,7 +1,7 @@
 from src.bd_table import Table
 from src.validation import Validation
 from src.crud import Crud
-from src.user_interface import UserInterface
+from src.user_interface import user_interface
 
 
 class Find:
@@ -9,7 +9,7 @@ class Find:
         self.table = table
 
     def find_record(self):
-        line_find = Validation().menu_validation(UserInterface().find_menu(), 4)
+        line_find = Validation().menu_validation(user_interface("10"), 4)
         match line_find:
             case "1":
                 self.find_by_name()
