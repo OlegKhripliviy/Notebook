@@ -8,14 +8,6 @@ class Validation:
     def __init__(self):
         self.note_list = []
 
-    def add_note_validation(self):
-        self.note_list.append(self.first_name_valid())
-        self.note_list.append(self.last_name_valid())
-        self.note_list.append(self.number_valid())
-        self.note_list.append(Us.user_interface("4"))
-        self.note_list.append(self.date_valid())
-        return self.note_list
-
     @staticmethod
     def first_name_valid():
         while True:
@@ -54,10 +46,9 @@ class Validation:
                     return date
             except ValueError:
                 print("Invalid data. Try again")
-                return False
 
     @staticmethod
-    def id_validation():
+    def id_valid():
         while True:
             try:
                 note_id = int(Us.user_interface("7"))
@@ -66,16 +57,26 @@ class Validation:
                 print("You didn't enter a number. Try again")
 
     @staticmethod
-    def menu_validation(menu, menu_len: int):
+    def address_valid():
+        while True:
+            address = Us.user_interface("4")
+            if len(address) == 0:
+                break
+            return address
+
+    @staticmethod
+    def menu_valid(menu, menu_len: int):
         try:
             if menu == '0':
-                return int(menu)
+                return menu
             elif int(menu) not in range(1, menu_len + 1):
                 print("Unknown command. Try again")
             else:
-                return int(menu)
+                return menu
         except ValueError:
             print("You didn't enter a number. Try again")
+            return 0
+
 
 
 

@@ -2,7 +2,6 @@ class UserInterface:
     def __init__(self):
         self.value = None
 
-
     def user_interface(self, c):
         match c:
             case "1":
@@ -25,15 +24,18 @@ class UserInterface:
             case "10":
                 self.value = input("\nFind line by:\n0 - Exit\n1 - First name\n"
                                    "2 - Number\n3 - Part of last name\nYour choice: ")
+            case _:
+                print("Menu closed")
         return self.value
 
     @staticmethod
     def print_table(records):
         for i in records:
+            print(i)
             text = ""
-            text += f'{i[0]}. First name: {i[1]}, Last_name: {i[2]}, Number: {i[3]}'
-            if len(i[4]) > 2:
+            text += f'Id= {i[0]}. First name: {i[1]}, Last_name: {i[2]}, Number: {i[3]}'
+            if i[4] is None or len(i[4]) > 2:
                 text += f' ,Address: {i[4]}'
-            if len(str(i[5])) > 5:
+            if i[5] is None or len(str(i[5])) > 5:
                 text += f' ,Birth data: {i[5]}'
             print(text)
