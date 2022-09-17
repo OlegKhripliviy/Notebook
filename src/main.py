@@ -1,8 +1,7 @@
-from src.crud import Crud
-from src.find import Find
+from src.notebook import Notebook
 
 
-def main():
+def main(notebook: Notebook):
     while True:
         menu = input('\n0 - Exit\n1 - Add new note\n2 - Delete note\n3 - Update none\n'
                      '4 - Find note\n5 - Print table\nYour choice: ')
@@ -10,20 +9,19 @@ def main():
             case "0":
                 break
             case "1":
-                crud.add_one_note()
+                notebook.add_one_note()
             case "2":
-                crud.del_note()
+                notebook.del_note()
             case "3":
-                crud.update_notes()
+                notebook.update_notes()
             case "4":
-                find.find_record()
+                notebook.find_record()
             case "5":
-                crud.select_order_by()
+                notebook.select_order_by()
             case _:
-                pass
+                print('Bye')
 
 
 if __name__ == '__main__':
-    find = Find()
-    crud = Crud()
-    main()
+    nb = Notebook()
+    main(nb)
