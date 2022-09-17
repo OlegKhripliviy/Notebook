@@ -1,6 +1,5 @@
 from src.crud import Crud
 from src.find import Find
-from src.bd_table import Table
 
 
 def main():
@@ -9,7 +8,6 @@ def main():
                      '4 - Find note\n5 - Print table\nYour choice: ')
         match menu:
             case "0":
-                table.close()
                 break
             case "1":
                 crud.add_one_note()
@@ -26,7 +24,6 @@ def main():
 
 
 if __name__ == '__main__':
-    table = Table()
-    find = Find(table)
-    crud = Crud(table)
+    find = Find()
+    crud = Crud()
     main()
