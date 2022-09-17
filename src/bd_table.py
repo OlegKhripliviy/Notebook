@@ -11,23 +11,9 @@ class Table:
                           '(Id INTEGER PRIMARY KEY, First_name TEXT NOT NULL, Last_name TEXT NOT NULL, '
                           'Number UNIQUE, Address TEXT, Born_data date)')
         print("Connected to table")
-        self.amaunt_notes()
-
-    def amaunt_notes(self):
-        count = self.cur.execute('SELECT COUNT(*) FROM notes')
-        num_row = count.fetchone()[0]
-        print(f'Notes in notebook: {num_row}')
-        return num_row
 
     def delete_table(self):
         self.base.execute('DROP TABLE IF EXISTS notes')
-
-    def select_table(self):
-        answ = input("\nPrint table:\n1 - Order by id\n2 - Order by First name\n"
-                     "3 - Order by Last name\nAny key - Exit\nYour choice: ")
-        order_by_set = {1: "Id", 2: "First_name", 3: "Last_name"}
-        records = self.cur.execute(f"SELECT * FROM notes ORDER BY {order_by_set[int(answ)]}")
-        self.print_table(records)
 
     def close(self):
         self.cur.close()

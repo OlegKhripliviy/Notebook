@@ -37,3 +37,14 @@ class UserInterface:
         choice = input('0 - Exit\n1 - Delete by Id\nYour choice: ')
         return choice
 
+    @staticmethod
+    def order_menu():
+        choice = input("\nPrint table:\n0 - Exit\n1 - Order by id\n2 - Order by First name\n"
+                       "3 - Order by Last name\nYour choice: ")
+        return choice
+
+    @staticmethod
+    def find_menu():
+        choice = input("\nFind line by:\n0 - Exit\n1 - First name\n"
+                       "2 - Number\n3 - Part of last name\nYour choice: ")
+        return choice

@@ -1,4 +1,7 @@
 from src.bd_table import Table
+from src.validation import Validation
+from src.crud import Crud
+from src.user_interface import UserInterface
 
 
 class Find:
@@ -6,8 +9,7 @@ class Find:
         self.table = table
 
     def find_record(self):
-        line_find = input("\nFind line by:\n1 - First name\n2 - Number\n3 - Part of last name\n"
-                          "Any key - back to menu\nYour choice: ")
+        line_find = Validation().menu_validation(UserInterface().find_menu(), 4)
         match line_find:
             case "1":
                 self.find_by_name()
@@ -19,17 +21,17 @@ class Find:
                 pass
 
     def find_by_mask(self):
-        mask = input("\nEnter part of last name: ")
-        record = self.table.cur.execute(f"SELECT * FROM notes WHERE Last_name LIKE '{mask.capitalize()}%'")
+        last_name = Validation().last_name_valid()
+        record = Crud(self.table).select_notes("Last_name", last_name)
         self.table.print_table(record)
 
     def find_by_number(self):
-        number = input("Enter number: ")
-        record = self.table.cur.execute(f"SELECT * FROM notes WHERE Number == ?", (number,)).fetchall()
+        number = Validation().number_valid()
+        record = Crud(self.table).select_notes("Number", number)
         self.table.print_table(record)
 
     def find_by_name(self):
-        first_name = input("Enter first name: ")
-        record = self.table.cur.execute(f"SELECT * FROM notes WHERE First_name == ?", (first_name.capitalize(),))
-        records = record.fetchall()
-        self.table.print_table(records)
+        first_name = Validation().first_name_valid()
+        record = Crud(self.table).select_notes("First_name", first_name)
+        self.table.print_table(record)
+

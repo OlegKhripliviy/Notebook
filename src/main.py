@@ -20,7 +20,7 @@ def main():
             case "4":
                 find.find_record()
             case "5":
-                table.select_table()
+                crud.select_order_by()
             case _:
                 pass
 
