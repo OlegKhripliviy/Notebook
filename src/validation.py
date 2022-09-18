@@ -6,12 +6,12 @@ Us = UserInterface()
 
 class Validation:
     def __init__(self):
-        self.note_list = []
+        pass
 
     @staticmethod
     def first_name_valid():
         while True:
-            first_name = Us.user_interface("1")
+            first_name = Us.user_interface("first_name")
             if len(first_name) < 2 or not first_name.isalpha():
                 print("Too short or has number. Try again\n")
             else:
@@ -20,7 +20,7 @@ class Validation:
     @staticmethod
     def last_name_valid():
         while True:
-            last_name = Us.user_interface("2")
+            last_name = Us.user_interface("last_name")
             if len(last_name) < 2 or not last_name.isalpha():
                 print("Too short or has number. Try again\n")
             else:
@@ -29,7 +29,7 @@ class Validation:
     @staticmethod
     def number_valid():
         while True:
-            number = Us.user_interface("3")
+            number = Us.user_interface("number")
             if len(number) != 10 or not number.isdigit():
                 print("Incorrect input phone number. Try again\n")
             else:
@@ -38,7 +38,7 @@ class Validation:
     @staticmethod
     def date_valid():
         while True:
-            date = Us.user_interface("6")
+            date = Us.user_interface("date")
             if len(date) == 0:
                 break
             try:
@@ -51,7 +51,7 @@ class Validation:
     def id_valid():
         while True:
             try:
-                note_id = int(Us.user_interface("7"))
+                note_id = int(Us.user_interface("id"))
                 return note_id
             except ValueError:
                 print("You didn't enter a number. Try again")
@@ -59,7 +59,7 @@ class Validation:
     @staticmethod
     def address_valid():
         while True:
-            address = Us.user_interface("4")
+            address = Us.user_interface("address")
             if len(address) == 0:
                 break
             return address
@@ -76,7 +76,3 @@ class Validation:
         except ValueError:
             print("You didn't enter a number. Try again")
             return 0
-
-
-
-

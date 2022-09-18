@@ -4,24 +4,24 @@ class UserInterface:
 
     def user_interface(self, c):
         match c:
-            case "1":
+            case "first_name":
                 self.value = input("Enter first name: ")
-            case "2":
+            case "last_name":
                 self.value = input("Enter last name: ")
-            case "3":
+            case "number":
                 self.value = input("Enter number without +38: ")
-            case "4":
+            case "address":
                 self.value = input("Enter address: ")
-            case "6":
+            case "date":
                 self.value = input("Enter date born(dd.mm.yyyy): ")
-            case "7":
+            case "id":
                 self.value = input("Enter user id: ")
-            case "8":
+            case "del_menu":
                 self.value = input('0 - Exit\n1 - Delete by Id\nYour choice: ')
-            case "9":
+            case "order_by_menu":
                 self.value = input("\nPrint table:\n0 - Exit\n1 - Order by id\n2 - Order by First name\n"
                                    "3 - Order by Last name\nYour choice: ")
-            case "10":
+            case "find_menu":
                 self.value = input("\nFind line by:\n0 - Exit\n1 - First name\n"
                                    "2 - Number\n3 - Part of last name\nYour choice: ")
             case _:
@@ -31,7 +31,6 @@ class UserInterface:
     @staticmethod
     def print_table(records):
         for i in records:
-            print(i)
             text = ""
             text += f'Id= {i[0]}. First name: {i[1]}, Last_name: {i[2]}, Number: {i[3]}'
             if i[4] is None or len(i[4]) > 2:

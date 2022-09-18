@@ -29,7 +29,7 @@ class Notebook:
 
     def del_note(self):
         amount_now = self.amount_notes()
-        menu_num = Validation().menu_valid(UserInterface().user_interface("8"), 2)
+        menu_num = Validation().menu_valid(UserInterface().user_interface("del_menu"), 2)
         if menu_num == "0":
             print("Menu closed\n")
         else:
@@ -47,7 +47,7 @@ class Notebook:
             cur().execute(
                 f"UPDATE notes SET First_name = ?, Last_name = ?,Number = ?, Address = ?, Born_data = ? WHERE Id = ?",
                 (Validation().first_name_valid(), Validation().last_name_valid(), Validation().number_valid(),
-                 UserInterface().user_interface("4"), Validation().date_valid(), user_id))
+                 Validation().address_valid(), Validation().date_valid(), user_id))
             print("Note updated")
         except sqlite3.IntegrityError as ex:
             print("Exception:", ex)
@@ -64,7 +64,7 @@ class Notebook:
 
     @staticmethod
     def select_order_by():
-        menu_num = Validation().menu_valid(UserInterface().user_interface("9"), 4)
+        menu_num = Validation().menu_valid(UserInterface().user_interface("order_by_menu"), 4)
         if menu_num == "0":
             print("Menu is close")
         else:
@@ -80,7 +80,7 @@ class Notebook:
         return num_row
 
     def find_record(self):
-        line_find = Validation().menu_valid(UserInterface().user_interface("10"), 4)
+        line_find = Validation().menu_valid(UserInterface().user_interface("find_menu"), 4)
         match line_find:
             case "1":
                 self.find_by_name()
@@ -94,14 +94,14 @@ class Notebook:
     def find_by_mask(self):
         last_name = Validation().last_name_valid()
         record = self.select_by_mask("Last_name", last_name)
-        return UserInterface().print_table(record)
+        UserInterface().print_table(record)
 
     def find_by_number(self):
         number = Validation().number_valid()
         record = self.select_notes("Number", number)
-        return UserInterface().print_table(record)
+        UserInterface().print_table(record)
 
     def find_by_name(self):
         first_name = Validation().first_name_valid()
         record = self.select_notes("First_name", first_name)
-        return UserInterface().print_table(record)
+        UserInterface().print_table(record)
